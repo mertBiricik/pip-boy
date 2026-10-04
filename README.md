@@ -1,49 +1,54 @@
-# ⌚ Fallout Pip-Boy Watchface for Mi Band 8 🎮
-![Watchface Preview](https://raw.githubusercontent.com/fordus/pip-boy/main/watchface-preview.png)
+# Fallout Pip-Boy Watchface for Xiaomi Smart Band 8
 
-Bring the post-apocalyptic charm of Fallout's Pip-Boy to your wrist with this custom watchface for the Mi Band 8! 🚀☢️
+A fork of [fordus/pip-boy](https://github.com/fordus/pip-boy) that adds a Pip-Boy styled always-on display, a ready-to-install `.bin`, and an open-source build that works with [Gadgetbridge](https://gadgetbridge.org/) (no Windows tools or Mi Fitness required).
 
-## 📜 Description
+![Main face and AOD](docs/preview.png)
 
-This repository contains the necessary JSON configuration and image assets to create a Fallout Pip-Boy inspired watchface for the Mi Band 8. Experience the retro-futuristic aesthetics of the wasteland every time you check your wrist!
+## What's different from upstream
 
-## 🗂️ Repository Contents
+- **Always-on display restyled.** Upstream ships the watchface maker's default AOD template: white outline digits and Chinese weekday names. Here the AOD uses Pip-Boy green, the main face's time digits, and English weekday names (SUN–SAT). Layout and the other AOD elements are unchanged.
+- **Prebuilt `.bin`** in [Releases](../../releases), tested on a Xiaomi Smart Band 8 (`miwear.watch.m66gl`) with Gadgetbridge.
+- **`tools/build.py`** turns any [mibandwatchfaces.com Band 8 maker](https://www.mibandwatchfaces.com/mi_band8_watchface_maker/) project (`wfDef.json` + `images/` + `images_aod/`) into a working Band 8 `.bin` on Linux/macOS.
 
-- `watchface.json`: Configuration file for the watchface layout and functionality
-- `/images`: Directory containing all the image assets used in the watchface
+The main face is identical to upstream.
 
-## 🛠️ Creating the Watchface
+## Install (Gadgetbridge)
 
-To create the actual watchface file:
+1. Pair the band with Gadgetbridge (you need the band's auth key).
+2. Download `pip-boy-mb8.bin` from [Releases](../../releases) to your phone.
+3. Open it with **Gadgetbridge FW/App installer** and tap **Install**.
+4. Select the face on the band (long-press the current face).
 
-1. Visit the [Mi Band 8 Watchface Maker](https://www.mibandwatchfaces.com/mi_band8_watchface_maker/)
-2. Upload the `watchface.json` file from this repository
-3. Upload all images from the `/images` directory
-4. Follow the website's instructions to compile and download the watchface
+If you installed an earlier build with the same ID, delete it from Gadgetbridge's watchface list first; the band may otherwise keep the old copy.
 
-## ✨ Features
+Flashing custom files to a wearable is at your own risk.
 
-- 📊 Authentic Pip-Boy style interface
-- ⏰ Time display in true Vault-Tec fashion
-- 🔋 Battery indicator reminiscent of Radiation levels
-- 🏃‍♂️ Step counter displayed as Vault Dweller's journey
-- 💓 Heart rate monitor for keeping your S.P.E.C.I.A.L stats in check
+## Build from source
 
-## 🚀 Installation
+Requires Python 3 and a JDK (`javac`, `java`).
 
-1. Create the watchface file using the Mi Band 8 Watchface Maker (as described above)
-2. Connect your Mi Band 8 to your smartphone
-3. Use the official Mi Fitness app to upload and apply the new watchface
+```sh
+tools/build.py                       # -> dist/pip-boy-mb8.bin
+tools/build.py path/to/maker-export  # build another maker project
+tools/build.py --id 266210096 --name "my face"   # install side by side with another build
+```
 
-## 🙏 Acknowledgements
+The packer, [Mi8WfBinTool](https://github.com/zhy8388608/Mi8WfBinTool), is downloaded at a pinned commit on first run and cached in `tools/.cache/`; it is not included in this repository.
 
-- Bethesda Softworks for the iconic Pip-Boy design
-- [Mi Band 8 Watchface Maker](https://www.mibandwatchfaces.com/mi_band8_watchface_maker/) for providing the tools to create custom watchfaces
+Why the extra steps are needed (and what does not work on the Band 8) is written up in [docs/FORMAT-NOTES.md](docs/FORMAT-NOTES.md).
 
-## 📄 License
+## Credits
 
-This project is for personal use only. Fallout and Pip-Boy are trademarks of Bethesda Softworks LLC.
+- [fordus](https://github.com/fordus/pip-boy): original watchface design and artwork
+- [mibandwatchfaces.com](https://www.mibandwatchfaces.com/mi_band8_watchface_maker/): Band 8 watchface maker
+- [zhy8388608/Mi8WfBinTool](https://github.com/zhy8388608/Mi8WfBinTool): `.bin` packer used by the build
+- [Pzqqt/MiBand8_WatchFace_Colorful_Lines](https://github.com/Pzqqt/MiBand8_WatchFace_Colorful_Lines): reference Band 8 binary used to verify the format
+- [ooflet/Mi-Create](https://github.com/ooflet/Mi-Create) and the [EasyFace wiki](https://github.com/m0tral/EasyFace/wiki): data source table and Band 8 limitations
 
-## 💖 Support
+## Legal
 
-If you enjoy this watchface, consider giving this repository a ⭐!
+This is an unofficial, non-commercial fan project. It is not affiliated with or endorsed by Bethesda Softworks, ZeniMax Media, or Xiaomi. Fallout, Pip-Boy and Vault Boy are trademarks of Bethesda Softworks LLC.
+
+The watchface artwork comes from [fordus/pip-boy](https://github.com/fordus/pip-boy), which is published without a license and marked "for personal use only". That restriction carries over to the artwork and the prebuilt `.bin` in this fork: personal use only, no redistribution or commercial use.
+
+The build tooling in `tools/` is original work and is licensed separately under the MIT License (see [tools/LICENSE](tools/LICENSE)).
